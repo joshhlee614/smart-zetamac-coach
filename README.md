@@ -1,54 +1,58 @@
-# React + TypeScript + Vite
+Smart Zetamac Coach (v0.0.1)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Chrome extension that helps you get better at Zetamac Mental Math by tracking your performance and recommending personalized drills based on the types of problems you struggle with the most.
 
-Currently, two official plugins are available:
+What It Does:
+	•	Automatically logs your completed Zetamac problems
+	•	Tracks the exact timing of each problem
+	•	Categorizes each problem by operation (add, sub, mul, div) and digit structure (e.g., 2×1-digit)
+	•	Identifies the slowest categories and most time-consuming problem types
+	•	Recommends specific practice settings (Range A and Range B) to help you improve
+	•	Displays a clean interactive dashboard summarizing your performance
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Features:
+	•	Tracks all answers and timestamps during real-time Zetamac runs
+	•	Automatically detects when a session finishes (when the timer hits zero)
+	•	Suggests focused practice settings by detecting common weaknesses
+	•	Groups problems by digit structure and operator for deeper insights
+	•	All data is stored locally using chrome.storage.local
+	•	Built-in dashboard to explore your sessions and weaknesses visually
 
-## Expanding the ESLint configuration
+How to Use:
+	1.	Clone or download the repository
+	2.	In the project directory, run:
+	•	npm install
+	•	npm run build
+	3.	Open Google Chrome and go to chrome://extensions
+	4.	Enable “Developer mode” (top right)
+	5.	Click “Load unpacked”
+	6.	Select the “dist” folder inside the project
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+You’re ready to go! The extension will begin logging once you start a new game on https://arithmetic.zetamac.com/.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Default Tracking Settings:
+	•	Addition/Subtraction: 2 to 100
+	•	Multiplication/Division: 2 to 12 × 2 to 100
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+File Structure:
+/public
+	manifest.json
+	icon assets
+/src
+	content.js (injected into Zetamac)
+	dashboard.tsx (React/TS UI)
+/dist
+	Auto-generated build output
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Tech Stack:
+	•	TypeScript
+	•	React
+	•	Vite
+	•	Chrome Extensions (Manifest V3)
+	•	Chrome local storage
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+Version:
+	•	Current version: 0.0.1
+
+License:
+	•	MIT License
