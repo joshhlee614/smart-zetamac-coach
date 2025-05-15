@@ -88,7 +88,6 @@ window.addEventListener("load", () => {
         subtree:   true
     });
 
-    // detect session end via timer (update selector to match Zetamac timer element)
     const timerSelector = "#game .left";
     const getTimer = () => document.querySelector(timerSelector);
 
@@ -96,14 +95,12 @@ window.addEventListener("load", () => {
         const timerEl = getTimer();
         if (!timerEl || !sessionActive) return;
         
-        // extract remaining seconds as a number
         const match = timerEl.textContent.match(/\d+/);
         const remaining = match ? parseInt(match[0], 10) : NaN;
         if (remaining === 0) {
             
             sessionActive = false;
             const endTs = Date.now();
-            // persist the completed session
             const session = { startTs: sessionStartTs, endTs, attempts: sessionAttempts };
             chrome.storage.local.get({ sessions: [] }, (res) => {
                 const sarr = res.sessions;
@@ -112,10 +109,8 @@ window.addEventListener("load", () => {
             });
         }
     };
-    // check every half-second
     setInterval(checkSessionEnd, 500);
 
-    // discard incomplete session on reload
     window.addEventListener("beforeunload", () => {
         sessionActive = false;
         sessionAttempts = [];

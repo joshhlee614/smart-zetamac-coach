@@ -37,13 +37,11 @@ function Dashboard() {
         );
     }
 
-    /** ---------- flatten attempts ---------- **/
     const attempts = sessions.flatMap(s => s.attempts);
     const totalProblems = attempts.length;
     const totalMs = attempts.reduce((s,a)=>s+(a.endTs-a.startTs),0);
     const avgSec  = (totalMs/totalProblems/1000).toFixed(2);
 
-    /* ---------- average time per operator ---------- */
     const opTimes = (['add', 'sub', 'mul', 'div'] as const)
         .map(op => {
             const arr = attempts.filter(a => a.op === op);
@@ -55,7 +53,6 @@ function Dashboard() {
 
 
 
-    /** ---------- build time-cost buckets by op+digit lengths with value ranges ---------- **/
     interface TimeBucket {
         op:         string;
         digits:     [number, number];
@@ -98,7 +95,6 @@ function Dashboard() {
         .sort((a, b) => b.avgTime - a.avgTime);
 
 
-    /** ---------- render ---------- **/
     return (
         <div style={{ padding:16,fontFamily:'sans-serif' }}>
             <h1>Overall Overview</h1>
@@ -127,7 +123,6 @@ function Dashboard() {
             <h2>Drill Suggestions by Time-Heavy Categories</h2>
             <ul>
 {bucketRates.slice(0,5).map(b => {
-    // helpers to convert digit count → min / max value (clamped to 2‑100)
     const digitMin = (d: number) => Math.max(2, Math.pow(10, d - 1));
     const digitMax = (d: number) => Math.min(100, Math.pow(10, d) - 1);
     const clampDiv = (v: number) => Math.max(2, Math.min(12, v));  // divisors 2‑12
@@ -139,7 +134,6 @@ function Dashboard() {
     const [dA, dB] = b.digits;
 
     if (b.op === 'add') {
-        // keep ADD tight to its digit lengths
         addSubRange.minA = digitMin(dA);
         addSubRange.maxA = digitMax(dA);
         addSubRange.minB = digitMin(dB);
@@ -147,7 +141,6 @@ function Dashboard() {
     }
 
     if (b.op === 'sub') {
-        // minuend digits = dA, subtrahend digits = dB
         const minSub = digitMin(dB);
         const maxSub = digitMax(dB);
 
@@ -168,20 +161,16 @@ function Dashboard() {
     }
 
     if (b.op === 'mul') {
-        // First operand (divisor side) must remain 2‑12
         mulDivRange.minA = clampDiv(digitMin(dA));
         mulDivRange.maxA = clampDiv(digitMax(dA));
-        // Second operand full 2‑100 range for given digit length
         mulDivRange.minB = digitMin(dB);
         mulDivRange.maxB = digitMax(dB);
     }
 
     if (b.op === 'div') {
-        // divisor digit length = dB, restricted to 2‑12
         const minDiv = clampDiv(digitMin(dB));
         const maxDiv = clampDiv(digitMax(dB));
 
-        // ensure dividend (product) always dA digits
         const minDividend = Math.pow(10, dA - 1);      // 100 for 3‑digit
         const maxDividend = Math.pow(10, dA) - 1;      // 999
 
@@ -191,7 +180,6 @@ function Dashboard() {
         const maxQ = clamp(
             Math.floor(maxDividend / maxDiv), 2, 100
         );
-        // fallback if range collapses
         if (minQ > maxQ) { mulDivRange.minA = 2; mulDivRange.maxA = 12;
                            mulDivRange.minB = 2; mulDivRange.maxB = 100; }
         else {
@@ -222,30 +210,30 @@ function Dashboard() {
             <p style={{ fontSize: 12 }}>
               For each time-heavy category, set Zetamac’s “Range” boxes accordingly to focus on the slowest problem types.
             </p>
-            {/* 
-            <h2>Suggested Drill Settings</h2>
-            <ul>
-                {settings.map(s => (
-                    <li key={s.op}>
-                        <strong>{s.op.toUpperCase()}</strong><br/>
-                        A range: {s.minA} – {s.maxA}<br/>
-                        B range: {s.minB} – {s.maxB}
-                    </li>
-                ))}
-            </ul>
-            {dominantOp && (
-                <p style={{ fontSize: 12, color: 'crimson' }}>
-                    Tip: Your {dominantOp.toUpperCase()} problems show much higher
-                    corrections than the others. Consider un‑checking the other
-                    operations in Zetamac to focus exclusively on {dominantOp.toUpperCase()} for a session.
-                </p>
-            )}
-            <p style={{ fontSize: 12 }}>
-                Enter these number ranges in Zetamac’s “Range” boxes. Subtraction and
-                Division automatically use the result of Addition/Multiplication with
-                these same operand ranges, so one combined range per group is sufficient.
-            </p>
-            */}
+            { 
+            // <h2>Suggested Drill Settings</h2>
+            // <ul>
+            //     {settings.map(s => (
+            //         <li key={s.op}>
+            //             <strong>{s.op.toUpperCase()}</strong><br/>
+            //             A range: {s.minA} – {s.maxA}<br/>
+            //             B range: {s.minB} – {s.maxB}
+            //         </li>
+            //     ))}
+            // </ul>
+            // {dominantOp && (
+            //     <p style={{ fontSize: 12, color: 'crimson' }}>
+            //         Tip: Your {dominantOp.toUpperCase()} problems show much higher
+            //         corrections than the others. Consider un‑checking the other
+            //         operations in Zetamac to focus exclusively on {dominantOp.toUpperCase()} for a session.
+            //     </p>
+            // )}
+            // <p style={{ fontSize: 12 }}>
+            //     Enter these number ranges in Zetamac’s “Range” boxes. Subtraction and
+            //     Division automatically use the result of Addition/Multiplication with
+            //     these same operand ranges, so one combined range per group is sufficient.
+            // </p>
+            }
         </div>
     );
 }
