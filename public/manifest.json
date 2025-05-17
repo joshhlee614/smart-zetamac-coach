@@ -1,11 +1,11 @@
 {
-    "name": "Smart Zetamac",
+    "name": "Smart Zetamac Coach",
     "version": "0.0.1",
 
     "manifest_version": 3,
 
     "description": 
-        "Loads Zetamac problems and lays the groundwork for smart drills",
+        "A Chrome extension to analyze Zetamac arithmetic drill performance and generate personalized drill settings.",
 
     "permissions": [
         "storage",
