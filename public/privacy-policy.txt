@@ -1,0 +1,39 @@
+Privacy Policy for Smart Zetamac Coach (v0.0.1)
+
+Effective Date: May 17, 2025
+
+Smart Zetamac Coach is a Chrome extension designed to help users improve at Zetamac Mental Math drills by analyzing their performance locally.
+
+1. Data Collection
+
+This extension does not collect or transmit any personally identifiable information (PII). All tracked data—including answers, keystrokes, timestamps, and session statistics—is stored locally in your browser using chrome.storage.local.
+
+No data is ever sent to any external servers or third-party services.
+
+2. Data Usage
+
+The data collected is used solely to:
+	•	Track your performance during Zetamac sessions
+	•	Provide personalized drill recommendations
+	•	Display performance summaries in the dashboard
+
+This extension operates entirely on-device.
+
+3. Permissions
+
+The extension requests the following Chrome permissions:
+	•	storage: To store session data locally
+	•	scripting & activeTab: To inject scripts into the Zetamac site for tracking math problems
+	•	Host access for https://arithmetic.zetamac.com/*: This is the only website the extension runs on
+
+4. No Data Sharing
+
+We do not sell, share, or transfer your data to any third parties.
+
+5. No Remote Code
+
+This extension does not load any scripts or code from external sources. All code is bundled and runs locally.
+
+6. Contact
+
+For any questions or concerns, please contact: joshhlee614@gmail.com
